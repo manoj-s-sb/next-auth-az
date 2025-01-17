@@ -6,13 +6,13 @@ import {
 import { b2cPolicies } from "./msalConfig";
 
 export const getAccessToken = async (instance: IPublicClientApplication) => {
-    console.log('getAccessToken')
+  console.log("getAccessToken");
   const accounts = instance.getAllAccounts();
   if (accounts.length === 0) throw new Error("No accounts found");
-console.log(accounts,'accounts')
+  console.log(accounts, "accounts");
   try {
     const authResponse = await instance.handleRedirectPromise();
-    console.log(authResponse,'authResponse resposne')
+    console.log(authResponse, "authResponse resposne");
 
     if (authResponse) {
       instance.setActiveAccount(authResponse.account);
@@ -30,7 +30,9 @@ console.log(accounts,'accounts')
         ],
         account: accounts[0],
       });
-      console.log(response,'token resposne')
+      localStorage.setItem("accessToken", response.accessToken);
+      localStorage.setItem("expiresOn", response.expiresOn ? response.expiresOn.toString() : "");
+      console.log(response, "token resposne");
       return response.accessToken;
     } catch (error) {
       if (error instanceof InteractionRequiredAuthError) {

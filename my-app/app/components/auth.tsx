@@ -18,7 +18,8 @@ const AuthComponent = () => {
 
   const handleLogout = () => {
     instance.logoutPopup();
-
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("expiresOn");
     instance.clearCache();
   };
 
@@ -30,7 +31,7 @@ const AuthComponent = () => {
         <div>
           <p>Welcome, {accounts[0].username}</p>
           <button onClick={handleLogout}>Logout</button>
-          <Dashboard/>
+          <Dashboard />
         </div>
       )}
     </div>
