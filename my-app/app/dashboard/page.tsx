@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useMsal } from "@azure/msal-react";
-import { fetchApiData } from "../utils/apiConfig";
+import { fetchApiData } from "../utils/apiService";
 
 const Dashboard = () => {
   const { instance } = useMsal();
