@@ -1,36 +1,58 @@
 // components/AuthComponent.tsx
 import React from "react";
 import { useMsal } from "@azure/msal-react";
-import { b2cPolicies } from "../utils/msalConfig";
+import { b2cPolicies, loginRequest } from "../utils/msalConfig";
 import Dashboard from "../dashboard/page";
 
-const AuthComponent = () => {
+/**
+ * AuthComponent handles user authentication using Microsoft Authentication Library (MSAL)
+ * Manages login/logout functionality and renders appropriate UI based on authentication state
+ */
+const AuthComponent: React.FC = () => {
   const { instance, accounts } = useMsal();
 
-  const handleLogin = () => {
-    instance.loginRedirect({
-      authority: b2cPolicies.signIn.authority,
-      scopes: [
-        "https://stancebeamcctest.onmicrosoft.com/2e2ab414-7175-411b-8a5d-d11b591cbd07/api.read",
-      ],
-    });
+  // Handle user login with redirect flow
+  const handleLogin = async () => {
+    try {
+      await instance.loginRedirect({
+        authority: b2cPolicies.signIn.authority,
+        scopes: loginRequest.scopes,
+      });
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
-  const handleLogout = () => {
-    instance.logoutPopup();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("expiresOn");
-    instance.clearCache();
+  // Handle user logout and clean up
+  const handleLogout = async () => {
+    try {
+      await instance.logoutPopup();
+      // Clear local storage and cache
+      ['accessToken', 'expiresOn'].forEach(key => localStorage.removeItem(key));
+      instance.clearCache();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
-    <div>
+    <div className="p-4">
       {!accounts.length ? (
-        <button onClick={handleLogin}>Login</button>
+        <button 
+          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          onClick={handleLogin}
+        >
+          Login
+        </button>
       ) : (
-        <div>
-          <p>Welcome, {accounts[0].username}</p>
-          <button onClick={handleLogout}>Logout</button>
+        <div className="space-y-4">
+          <p className="text-lg">Welcome, {accounts[0].username}</p>
+          <button 
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
           <Dashboard />
         </div>
       )}
