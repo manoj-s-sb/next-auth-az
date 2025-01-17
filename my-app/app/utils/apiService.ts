@@ -6,14 +6,15 @@ import moment from "moment";
 
 export const fetchApiData = async (instance: IPublicClientApplication) => {
   try {
-    const tokenExpiresOn = localStorage.getItem("expiresOn");
-    const current_time = new Date();
-    const isTokenExpired = moment(current_time).isAfter(tokenExpiresOn);
-    let token;
-    if (tokenExpiresOn === null) {
-      token = await getAccessToken(instance);
+    const tokenExpirationTime = localStorage.getItem("expiresOn");
+    const currentTime = new Date();
+    const isTokenExpired = moment(currentTime).isAfter(tokenExpirationTime);
+    let authToken;
+
+    if (tokenExpirationTime === null) {
+      authToken = await getAccessToken(instance);
     } else {
-      token = isTokenExpired
+      authToken = isTokenExpired
         ? await getAccessToken(instance)
         : localStorage.getItem("accessToken");
     }
@@ -22,7 +23,7 @@ export const fetchApiData = async (instance: IPublicClientApplication) => {
       "https://adb2c-func-app.azurewebsites.net/user/detail",
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
           "content-type": "application/json",
         },
       }

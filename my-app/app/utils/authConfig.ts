@@ -1,4 +1,3 @@
-// src/authUtils.ts
 import {
   InteractionRequiredAuthError,
   IPublicClientApplication,
