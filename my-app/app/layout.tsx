@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import {  Geist_Mono ,Montserrat} from "next/font/google";
+import { Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 
-
 const montserrat = Montserrat({
-  subsets: ['latin'], // You can add subsets like 'latin-ext', 'cyrillic', etc.
-  weight: ['400', '700'], // Specify the weights you need
+  subsets: ["latin"], // You can add subsets like 'latin-ext', 'cyrillic', etc.
+  weight: ["400", "700"], // Specify the weights you need
 });
 
 const geistMono = Geist_Mono({
