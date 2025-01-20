@@ -25,7 +25,7 @@ export const msalConfig = {
     authority:
       "https://stancebeamcctest.b2clogin.com/stancebeamcctest.onmicrosoft.com/B2C_1_SIgnUp",
     knownAuthorities: ["stancebeamcctest.b2clogin.com"],
-    //redirectUri: "http://localhost:3000/",
+    redirectUri: "http://localhost:3000/",
   },
   cache: {
     cacheLocation: "localStorage",

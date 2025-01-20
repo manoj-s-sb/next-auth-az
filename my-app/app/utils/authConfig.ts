@@ -1,7 +1,7 @@
 import {
   InteractionRequiredAuthError,
   IPublicClientApplication,
-} from "@azure/msal-browser";
+} from "@azure/msal-browser"; 
 import { b2cPolicies } from "./msalConfig";
 
 export const getAccessToken = async (instance: IPublicClientApplication) => {
@@ -33,6 +33,7 @@ export const getAccessToken = async (instance: IPublicClientApplication) => {
       );
       return response.accessToken;
     } catch (error) {
+      console.log(error);
       if (error instanceof InteractionRequiredAuthError) {
         console.error("Silent token acquisition failed, redirecting to login.");
         instance.loginRedirect({
