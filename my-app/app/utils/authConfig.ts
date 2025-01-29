@@ -9,11 +9,13 @@ export const getAccessToken = async (instance: IPublicClientApplication) => {
   if (accounts.length === 0) throw new Error("No accounts found");
   try {
     const authResponse = await instance.handleRedirectPromise();
-
+console.log(accounts,'aaccount')
     if (authResponse) {
       instance.setActiveAccount(authResponse.account);
     }
     const activeAccount = instance.getActiveAccount();
+console.log(activeAccount,'activeAccount')
+
     if (!activeAccount) {
       console.log("No active account. Redirecting to sign-in.");
       return;
@@ -26,6 +28,7 @@ export const getAccessToken = async (instance: IPublicClientApplication) => {
         ],
         account: accounts[0],
       });
+      console.log("accessToken", response.accessToken)
       localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem(
         "expiresOn",
